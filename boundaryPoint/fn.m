@@ -20,9 +20,9 @@ function res = fn(N)
     end
 
     dtheta = 2*pi/N;
-    theta = 0:dtheta:2*pi;
-    theta_o = theta(1:2:N+1);
-    theta_e = theta(2:2:N+1);
+    theta = dtheta:dtheta:2*pi-dtheta;
+    theta_o = theta(1:2:N-1);
+    theta_e = theta(2:2:N-1);
     p = z(theta);
     %p_o = z(theta_o);
     %p_e = z(theta_e);
@@ -31,16 +31,16 @@ function res = fn(N)
     %evaluating function at the boundary
     %Using alternating trapezoid rule
     
-    A = repmat(p,N+1,1);
-    B = repmat(p.',1,N+1);
+    A = repmat(p,N-1,1);
+    B = repmat(p.',1,N-1);
     
     
     A = A-B;
     
        
     
-    C_e = A(2:2:N+1, 1:2:N+1);
-    C_o = A(1:2:N+1, 2:2:N+1);
+    C_e = A(2:2:N-1, 1:2:N-1);
+    C_o = A(1:2:N-1, 2:2:N-1);
     
     
     term_o = phi(theta_o).*D(theta_o);
@@ -60,8 +60,8 @@ function res = fn(N)
     f_o = sum(f_o,2);
     f_o = f_o.';
     
-    res(1:2:N+1) = f_o;
-    res(2:2:N+1) = f_e;
+    res(1:2:N-1) = f_o;
+    res(2:2:N-1) = f_e;
     
     disp('result is:');
     disp(res);
