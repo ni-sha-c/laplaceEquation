@@ -1,21 +1,5 @@
-function res = densityFunction(N,f,p,a,b)
-    
-    
-    
-    %define D = d/d(theta) (z) 
-    function res = D(theta)
-            res = -a*sin(theta) + 1i*b*cos(theta);
-    end
-
-    dtheta = 2*pi/N;
-    theta = dtheta:dtheta:2*pi-dtheta;
-    
-    %p = z(theta);
-    %p_o = z(theta_o);
-    %p_e = z(theta_e);
-    
-    
-    %evaluating function at the boundary
+function res = densityFunction(N,f,p,D)      
+  
     %Using alternating trapezoid rule
     
     A = repmat(p,N+1,1);
@@ -27,7 +11,7 @@ function res = densityFunction(N,f,p,a,b)
    
     %C contains D(z_j) where j is the column number. This row vector is
     %repeated N+1 times
-    C = repmat(D(theta), N+1 , 1);
+    C = repmat(D, N+1 , 1);
     
     %term contains (z_j - z_i)/D(z_j). Inverse of what we need to avoid
     %division by 0.
@@ -52,10 +36,10 @@ function res = densityFunction(N,f,p,a,b)
     %taking real part of matrix
     exp = real(term);
     
-    res = exp\(2*f);
+    res = exp\(2*f');
     
-    disp('The density function is: ');
-    disp(res);
+    %disp('The density function is: ');
+    %disp(res);
 end
     
     
