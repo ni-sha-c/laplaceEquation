@@ -1,21 +1,21 @@
 function res = cauchyBoundary(N,mu,p,d)
-    odd = 1:2:N+1;
-    even = 2:2:N+1;
+    odd = 1:2:N-1;
+    even = 2:2:N;
     dtheta = 2*pi/N;
        
     %evaluating function at the boundary
     %Using alternating trapezoid rule
     
-    A = repmat(p,N+1,1);
-    B = repmat(p.',1,N+1);
+    A = repmat(p,N,1);
+    B = repmat(p.',1,N);
     
     
     A = A-B;
     
        
     
-    C_e = A(2:2:N+1, 1:2:N+1);
-    C_o = A(1:2:N+1, 2:2:N+1);
+    C_e = A(2:2:N, 1:2:N-1);
+    C_o = A(1:2:N-1, 2:2:N);
     
     
     term_o = (mu(odd))'.*d(odd);
@@ -35,8 +35,8 @@ function res = cauchyBoundary(N,mu,p,d)
     f_o = sum(f_o,2);
     f_o = f_o.';
     
-    res(1:2:N+1) = f_o;
-    res(2:2:N+1) = f_e;
+    res(1:2:N-1) = f_o;
+    res(2:2:N) = f_e;
     
     res = res - (mu')/2;
        
