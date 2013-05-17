@@ -13,17 +13,17 @@
     uexact = inline('log(abs(z-z_out))','z','z_out');
     boundaryValues = uexact(boundaryPoints, z_out);
     differential = D(theta,a,b);
-    mu = densityFunction(N,boundaryValues,boundaryPoints,differential);
+    [mu,K] = df_alt_trap(N,boundaryValues,boundaryPoints,differential);
     
-    disp('The density function is: ');
-    disp(mu);
+    %disp('The density function is: ');
+    %disp(mu);
     
     %checking
-    disp('Boundary values specified: ');
-    disp(boundaryValues);
-    disp('Boundary values calculated: ');
+    %disp('Boundary values specified: ');
+    %disp(boundaryValues);
+    %disp('Boundary values calculated: ');
     bv_from_nm = cauchyBoundary(N,mu,boundaryPoints,differential);
-    disp(bv_from_nm);
+    %disp(bv_from_nm);
     %finding u at interior point
     z_o = 1+1i;
     u_z_o = cauchyInterior(N,mu,1+1i,boundaryPoints,differential);
