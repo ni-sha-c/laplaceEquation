@@ -1,43 +1,37 @@
-function [res,K] = densityFunction(N,f,p,D)      
+function [res,A] = densityFunction(N,f,p,normal)      
   
-    %Using alternating trapezoid rule
     
-      A = repmat(p,N,1);
+    dtheta = 2*pi/N;    
+    %Using Gradient Quadrature
+    
+    A = repmat(p,N,1);
     B = repmat(p.',1,N);
     
     %A contains the terms z_j - z_i where i = row number and j= column
     %number
     A = A-B;
    
-    %C contains D(z_j) where j is the column number. This row vector is
-    %repeated N+1 times
-    C = repmat(D, N , 1);
+    %C contains |z_j - z_i|^2 
+    C = abs(A);
+    C = C.^2;
+    C = C + eye(N);
     
-    %term contains (z_j - z_i)/D(z_j). Inverse of what we need to avoid
-    %division by 0.
-    term = A./C;
+    %gives complex conjugate transpose of normal
+    normal = repmat(normal,N,1);
+    normal = normal';
+    %gives complex conjugate of normal
+    normal = normal.';
     
-    %multiplying by i*N. This will go to the denominator on taking the
-    %reciprocal
-    term = 1i*N*term/4;
-        
-    %Making diagonal terms 1 to suit the equation
-    term = term + eye(N);
+    %finding (z_j - z_i).normal@z_j
+    A = real(A.*normal);
+    h = dtheta/pi;
+    A = h*A./C;
     
-    %taking reciprocal of  matrix
-    term = term.^-1;
-    
-    %Because of the alternating trapezoidal rule some of the terms will be
-    %zero
-    term(1:2:N-1,1:2:N-1) = 0;
-    term(2:2:N,2:2:N) = 0;
-    term = term + eye(N);
-    
+    A = A + eye(N);
     %taking real part of matrix
-    K = real(term);
-    disp(['condition number of system matrix = ',num2str(cond(K))])
+    disp(['condition number of system matrix = ',num2str(cond(A))])
     
-    res = K\(2*f');
+    res = A\(2*f');
     %disp('The density function is: ');
     %disp(res);
 end
