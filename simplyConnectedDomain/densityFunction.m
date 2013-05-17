@@ -1,8 +1,8 @@
-function res = densityFunction(N,f,p,D)      
+function [res,K] = densityFunction(N,f,p,D)      
   
     %Using alternating trapezoid rule
     
-    A = repmat(p,N,1);
+      A = repmat(p,N,1);
     B = repmat(p.',1,N);
     
     %A contains the terms z_j - z_i where i = row number and j= column
@@ -19,7 +19,7 @@ function res = densityFunction(N,f,p,D)
     
     %multiplying by i*N. This will go to the denominator on taking the
     %reciprocal
-    term = 1i*N*term;
+    term = 1i*N*term/4;
         
     %Making diagonal terms 1 to suit the equation
     term = term + eye(N);
@@ -34,10 +34,10 @@ function res = densityFunction(N,f,p,D)
     term = term + eye(N);
     
     %taking real part of matrix
-    exp = real(term);
+    K = real(term);
+    disp(['condition number of system matrix = ',num2str(cond(K))])
     
-    res = exp\(2*f');
-    
+    res = K\(2*f');
     %disp('The density function is: ');
     %disp(res);
 end
