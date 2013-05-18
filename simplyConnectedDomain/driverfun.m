@@ -13,7 +13,7 @@
     uexact = inline('log(abs(z-z_out))','z','z_out');
     boundaryValues = uexact(boundaryPoints, z_out);
     differential = D(theta,a,b);
-    [mu,K] = df_alt_trap(N,boundaryValues,boundaryPoints,differential);
+    [mu,K] = densityfunction(N,boundaryValues,boundaryPoints,differential);
     
     %disp('The density function is: ');
     %disp(mu);
