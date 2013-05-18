@@ -1,7 +1,7 @@
  close all; clear;
     a=5;
     b=4;
-    N = 64;
+    N = 1024;
     
     dtheta = 2*pi/N;
 
@@ -14,7 +14,8 @@
     boundaryValues = uexact(boundaryPoints, z_out);
     differential = D(theta,a,b);
     %[mu,K] = df_alt_trap(N,boundaryValues,boundaryPoints,differential);
-    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,differential);
+    n = normal(theta,a,b);
+    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,n);
     %disp('The density function is: ');
     %disp(mu);
     
