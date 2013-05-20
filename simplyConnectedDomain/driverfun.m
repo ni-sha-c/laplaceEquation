@@ -1,21 +1,22 @@
  close all; clear;
     a=5;
     b=4;
-    N = 1024;
+    N = 64;
     
     dtheta = 2*pi/N;
 
     theta = 0:dtheta:2*pi - dtheta;
     boundaryPoints = z(theta,a,b);
     
-   
+     
     z_out = 10 + 10*1i;
     uexact = inline('log(abs(z-z_out))','z','z_out');
     boundaryValues = uexact(boundaryPoints, z_out);
     differential = D(theta,a,b);
     %[mu,K] = df_alt_trap(N,boundaryValues,boundaryPoints,differential);
     n = normal(theta,a,b);
-    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,n);
+    curv = kappa(theta,a,b);
+    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,n,curv);
     %disp('The density function is: ');
     %disp(mu);
     
