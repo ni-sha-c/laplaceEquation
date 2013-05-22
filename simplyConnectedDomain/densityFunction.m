@@ -1,4 +1,4 @@
-function [res,A] = densityFunction(N,f,p,normal,curv)      
+function [res,A] = densityFunction(N,f,p,normal,curv,differential)      
   
     
     dtheta = 2*pi/N;    
@@ -29,12 +29,12 @@ function [res,A] = densityFunction(N,f,p,normal,curv)
     
     %Adding the self-interaction term
     curv = curv';
+    curv = curv.*abs(differential');
     B = spdiags(curv,0,N,N);
-    B = 0.25*h*B;
+    B = (1/N)*B;
     
     
-    A = A - B;
-    A = A + eye(N);
+    A = A + B + eye(N);
    
     disp(['condition number of system matrix = ',num2str(cond(A))])
     

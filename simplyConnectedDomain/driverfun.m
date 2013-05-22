@@ -16,7 +16,7 @@
     %[mu,K] = df_alt_trap(N,boundaryValues,boundaryPoints,differential);
     n = normal(theta,a,b);
     curv = kappa(theta,a,b);
-    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,n,curv);
+    [mu,K] = densityFunction(N,boundaryValues,boundaryPoints,n,curv,differential);
     %disp('The density function is: ');
     %disp(mu);
     
